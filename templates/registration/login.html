@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Вход</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        .password-container {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 0px;/* Расположение глазка право-лево */
+            top: 56px;/* Расположение глазка верх-низ */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ff6b00;
+        }
+        body {
+            background-color: #080710;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .background {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: url('https://images3.nplod.ru/gen_images_1/SmgUmPdp6WywuurjZYXXQoLtZREyBjlQ_sm.jpg');
+            background-size: cover;
+            filter: blur(8px);
+            opacity: 0.5;
+        }
+        .balloons {
+            background-image: url('https://example.com/balloons.png'); /* Замените на ссылку на изображение с шариками */
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.3; /* Полупрозрачность для фона с шариками */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Чтобы фон с шариками был ниже прочего контента */
+        }
+        .overlay-text {
+            position: absolute;
+            top: 50px; /* Увеличенный отступ от верхней части */
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Roboto', sans-serif;
+            font-size: 36px; /* Увеличенный размер шрифта */
+            font-weight: 600; /* Более жирный шрифт */
+            color: white;
+            text-align: center;
+            opacity: 0.9; /* Меньшая мутность */
+            filter: blur(1px); /* Уменьшенное размытие текста */
+            z-index: -1; /* Чтобы текст был за фоном */
+            white-space: nowrap; /* Одна строка */
+        }
+
+        form {
+            width: 350px;
+            background-color: rgba(255,255,255,0.13);
+            position: relative;
+            margin: 0 auto;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 40px 30px;
+        }
+        form h2 {
+            font-size: 28px;
+            color: #ffffff;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 25px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        input {
+            display: block;
+            height: 45px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+        button {
+            margin-top: 30px;
+            width: 100%;
+            background-color: #ff6b00;
+            color: white;
+            padding: 10px 0;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        p {
+            color: #ffffff;
+            text-align: center;
+            margin-top: 10px;
+        }
+        a {
+            color: #ff6b00;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="balloons"></div> <!-- Фон с шариками -->
+
+    <div class="overlay-text">
+        Измени свои привычки, и изменится твоя жизнь
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <h2>Вход</h2>
+        <label for="id_username">Имя пользователя:</label>
+        <input type="text" name="username" id="id_username" required>
+
+        <div class="password-container">
+            <label for="id_password">Пароль:</label>
+            <input type="password" name="password" id="id_password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <button type="submit">Войти</button>
+        <p>Нет аккаунта? <a href="{% url 'sign_up' %}">Зарегистрируйтесь</a>.</p>
+    </form>
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('id_password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>
