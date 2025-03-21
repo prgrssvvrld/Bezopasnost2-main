@@ -4,7 +4,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Habit
 from .forms import HabitForm
 from django.contrib.auth import authenticate, login
-#на регистрации пользователя стоит проверка крутости на пароль - у него там критерии, короче много символов цифру спец символ и тогда точно пароль примет и с ним можно войти за другого пользователя.
+from .forms import CustomUserCreationForm
+from django.contrib.auth import logout
+
+def custom_logout(request):
+    logout(request)
+    return redirect('/accounts/login/')
 def custom_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -19,15 +24,16 @@ def custom_login(request):
 
 def home(request):
     return redirect('habits')
+
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/accounts/login')
+            return redirect('habits')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/sign_up.html', {'form': form})
 @login_required
 def habits(request):
